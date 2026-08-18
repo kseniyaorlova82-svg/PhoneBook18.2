@@ -64,4 +64,15 @@ public class Contact {
         return description;
     }
 
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

@@ -1,14 +1,16 @@
 package de.phonebook.core;
 
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import com.google.common.io.Files;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 
-public class BaseHelper {
+public class BaseHelper  {
+
     protected WebDriver driver;
 
     public BaseHelper(WebDriver driver) {
@@ -24,7 +26,6 @@ public class BaseHelper {
         driver.findElement(locator).clear();
         driver.findElement(locator).sendKeys(text);
     }
-
     public void click(By locator) {
         driver.findElement(locator).click();
     }
@@ -35,11 +36,10 @@ public class BaseHelper {
         if(alert == null){
             return false;
         }else {
-            driver.switchTo().alert().accept();
+            driver.switchTo().alert().accept();//click on OK button
             return true;
         }
     }
-
     public void pause(int millis){
         try {
             Thread.sleep(millis);
@@ -47,4 +47,20 @@ public class BaseHelper {
             throw new RuntimeException(e);
         }
     }
+
+    public String takeScreenshot(){
+        File tmp = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);// временный
+        File screen = new File("screenshots/screen-" + System.currentTimeMillis() + ".png");//постоянный
+
+        try {
+            Files.copy(tmp,screen);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return screen.getAbsolutePath();
+    }
+
+
 }
+
+
